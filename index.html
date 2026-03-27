@@ -83,7 +83,7 @@ h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#5b8fff,#a78
 </div>
 <div class="security-banner">
 <div class="sb-icon">&#128274;</div>
-<div class="sb-text"><strong>100% Private &amp; Safe to Use</strong>Your password is analyzed entirely in your browser. It is never typed, stored, or sent to any server. We cannot see what you type &mdash; no one can.</div>
+<div class="sb-text"><strong>100% Private &amp; Safe to Use</strong>Your password is analyzed entirely in your browser. It is never stored or sent to any server. We cannot see what you type &mdash; no one can.</div>
 </div>
 <div class="security-pills">
 <div class="pill">&#128683; No server connection</div>
@@ -147,31 +147,20 @@ h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#5b8fff,#a78
 var cv=document.getElementById("qubitCanvas"),ctx=cv.getContext("2d");
 var cx=80,cy=80,R=58,ang=0,ph=0;
 function dq(){
-  ctx.clearRect(0,0,160,160);
-  ctx.strokeStyle="rgba(91,143,255,0.22)";ctx.lineWidth=1.2;
+  ctx.clearRect(0,0,160,160);ctx.strokeStyle="rgba(91,143,255,0.22)";ctx.lineWidth=1.2;
   ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();
   ctx.beginPath();ctx.ellipse(cx,cy,R,R*0.28,0,0,Math.PI*2);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx,cy-R-4);ctx.lineTo(cx,cy+R+4);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx-R-4,cy);ctx.lineTo(cx+R+4,cy);ctx.stroke();
-  var th=Math.PI/3+Math.sin(ang*0.7)*0.4;
-  var vx=cx+R*Math.sin(th)*Math.cos(ang),vy=cy-R*Math.cos(th);
-  var g=ctx.createLinearGradient(cx,cy,vx,vy);
-  g.addColorStop(0,"#5b8fff");g.addColorStop(1,"#a78bfa");
-  ctx.strokeStyle=g;ctx.lineWidth=2.5;
-  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(vx,vy);ctx.stroke();
+  var th=Math.PI/3+Math.sin(ang*0.7)*0.4,vx=cx+R*Math.sin(th)*Math.cos(ang),vy=cy-R*Math.cos(th);
+  var g=ctx.createLinearGradient(cx,cy,vx,vy);g.addColorStop(0,"#5b8fff");g.addColorStop(1,"#a78bfa");
+  ctx.strokeStyle=g;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(vx,vy);ctx.stroke();
   var dx=vx-cx,dy=vy-cy,ln=Math.sqrt(dx*dx+dy*dy),ux=dx/ln,uy=dy/ln;
-  ctx.fillStyle="#a78bfa";
-  ctx.beginPath();ctx.moveTo(vx,vy);
-  ctx.lineTo(vx-ux*10-uy*5,vy-uy*10+ux*5);
-  ctx.lineTo(vx-ux*10+uy*5,vy-uy*10-ux*5);
-  ctx.closePath();ctx.fill();
-  for(var i=0;i<6;i++){
-    var a=ang+i*Math.PI/3+ph;
-    var ex=cx+R*Math.cos(a),ey=cy+R*0.28*Math.sin(a);
-    var al=0.15+0.5*Math.abs(Math.sin(a-ang));
-    ctx.fillStyle="rgba(56,189,248,"+al+")";
-    ctx.beginPath();ctx.arc(ex,ey,2.5,0,Math.PI*2);ctx.fill();
-  }
+  ctx.fillStyle="#a78bfa";ctx.beginPath();ctx.moveTo(vx,vy);
+  ctx.lineTo(vx-ux*10-uy*5,vy-uy*10+ux*5);ctx.lineTo(vx-ux*10+uy*5,vy-uy*10-ux*5);ctx.closePath();ctx.fill();
+  for(var i=0;i<6;i++){var a=ang+i*Math.PI/3+ph,ex=cx+R*Math.cos(a),ey=cy+R*0.28*Math.sin(a);
+    ctx.fillStyle="rgba(56,189,248,"+(0.15+0.5*Math.abs(Math.sin(a-ang)))+")";
+    ctx.beginPath();ctx.arc(ex,ey,2.5,0,Math.PI*2);ctx.fill();}
   ctx.fillStyle="#5b8fff";ctx.beginPath();ctx.arc(cx,cy,3.5,0,Math.PI*2);ctx.fill();
   ang+=0.018;ph+=0.009;requestAnimationFrame(dq);
 }
@@ -180,18 +169,15 @@ var inp=document.getElementById("passwordInput");
 inp.addEventListener("input",analyze);
 function toggleVis(){inp.type=inp.type==="password"?"text":"password";}
 function analyze(){
-  var pwd=inp.value;
-  var res=document.getElementById("results");
+  var pwd=inp.value,res=document.getElementById("results");
   if(!pwd.length){res.style.display="none";document.getElementById("charsetInfo").textContent="";return;}
   res.style.display="block";
   var L=/[a-z]/.test(pwd),U=/[A-Z]/.test(pwd),D=/[0-9]/.test(pwd),S=/[^a-zA-Z0-9]/.test(pwd);
   var cs=0;if(L)cs+=26;if(U)cs+=26;if(D)cs+=10;if(S)cs+=32;if(!cs)cs=26;
   var pts=[];if(L)pts.push("a-z");if(U)pts.push("A-Z");if(D)pts.push("0-9");if(S)pts.push("!@#");
-  document.getElementById("charsetInfo").textContent="Charset: "+cs+" chars ("+pts.join(", ")+") · Length: "+pwd.length;
-  var N=Math.pow(cs,pwd.length);
-  var cSec=N/1e12,qSec=Math.sqrt(N)/1e9;
-  var entropy=(Math.log(N)/Math.log(2)).toFixed(1);
-  var speedup=cSec/qSec;
+  document.getElementById("charsetInfo").textContent="Charset: "+cs+" chars ("+pts.join(", ")+") - Length: "+pwd.length;
+  var N=Math.pow(cs,pwd.length),cSec=N/1e12,qSec=Math.sqrt(N)/1e9;
+  var entropy=(Math.log(N)/Math.log(2)).toFixed(1),speedup=cSec/qSec;
   document.getElementById("statN").textContent=fb(N);
   document.getElementById("statE").textContent=entropy+" bits";
   var su=document.getElementById("statS");
@@ -206,77 +192,58 @@ function analyze(){
 }
 function ft(s){
   if(!isFinite(s)||s>1e30)return "forever";
-  if(s<0.001)return "<1ms";
-  if(s<1)return (s*1000).toFixed(0)+"ms";
-  if(s<60)return s.toFixed(1)+" sec";
-  if(s<3600)return (s/60).toFixed(1)+" min";
+  if(s<0.001)return "<1ms";if(s<1)return (s*1000).toFixed(0)+"ms";
+  if(s<60)return s.toFixed(1)+" sec";if(s<3600)return (s/60).toFixed(1)+" min";
   if(s<86400)return (s/3600).toFixed(1)+" hours";
-  var d=s/86400;
-  if(d<365)return d.toFixed(0)+" days";
-  var y=d/365.25;
-  if(y<1e6)return y.toFixed(0)+" years";
+  var d=s/86400;if(d<365)return d.toFixed(0)+" days";
+  var y=d/365.25;if(y<1e6)return y.toFixed(0)+" years";
   if(y<1e9)return (y/1e6).toFixed(1)+"M years";
   if(y<1e12)return (y/1e9).toFixed(1)+"B years";
   return (y/1e12).toFixed(1)+"T years";
 }
-function fb(n){
-  if(!isFinite(n)||n>1e100)return "10^∞";
-  if(n<1000)return n.toFixed(0);
-  var e=Math.floor(Math.log10(n));
-  return "10^"+e;
-}
+function fb(n){if(!isFinite(n)||n>1e100)return "10^?";if(n<1000)return n.toFixed(0);return "10^"+Math.floor(Math.log10(n));}
 function bar(q){
-  var f=document.getElementById("strengthFill"),l=document.getElementById("strengthText");
-  var p,c,t;
-  if(q<1)        {p=5; c="#ef4444";t="😱 Cracked instantly by a quantum computer";}
-  else if(q<60)  {p=15;c="#f97316";t="😰 Seconds — highly vulnerable to quantum attack";}
-  else if(q<3600){p=28;c="#fb923c";t="😬 Minutes — weak quantum protection";}
-  else if(q<86400){p=42;c="#eab308";t="😐 Hours — below average";}
-  else if(q<3.15e7){p=56;c="#84cc16";t="🙂 Days / months — decent, but improvable";}
-  else if(q<3.15e9){p=70;c="#22c55e";t="😊 Years — good quantum resistance";}
-  else if(q<3.15e19){p=86;c="#10b981";t="💪 Thousands of years — excellent password!";}
-  else              {p=100;c="#6366f1";t="🔮 Quantum-resistant — practically unbreakable";}
+  var f=document.getElementById("strengthFill"),l=document.getElementById("strengthText"),p,c,t;
+  if(q<1){p=5;c="#ef4444";t="Cracked instantly by a quantum computer";}
+  else if(q<60){p=15;c="#f97316";t="Seconds - highly vulnerable to quantum attack";}
+  else if(q<3600){p=28;c="#fb923c";t="Minutes - weak quantum protection";}
+  else if(q<86400){p=42;c="#eab308";t="Hours - below average";}
+  else if(q<3.15e7){p=56;c="#84cc16";t="Days / months - decent, but improvable";}
+  else if(q<3.15e9){p=70;c="#22c55e";t="Years - good quantum resistance";}
+  else if(q<3.15e19){p=86;c="#10b981";t="Thousands of years - excellent password!";}
+  else{p=100;c="#6366f1";t="Quantum-resistant - practically unbreakable";}
   f.style.width=p+"%";f.style.background=c;l.style.color=c;l.textContent=t;
 }
 function doTips(pwd,len,L,U,D,S){
   var el=document.getElementById("tips"),it=[];
-  if(len<8)it.push({w:1,t:"Length < 8 — any computer cracks this in seconds"});
+  if(len<8)it.push({w:1,t:"Length < 8 - any computer cracks this in seconds"});
   if(len>=8&&len<12)it.push({w:1,t:"Need 12+ characters for basic quantum resistance"});
-  if(len>=12&&len<16)it.push({w:0,t:"Good length — consider 16+ for stronger quantum protection"});
-  if(len>=16)it.push({w:0,t:"Length 16+ — excellent foundation against quantum attacks"});
+  if(len>=12&&len<16)it.push({w:0,t:"Good length - consider 16+ for stronger quantum protection"});
+  if(len>=16)it.push({w:0,t:"Length 16+ - excellent foundation against quantum attacks"});
   if(!L||!U)it.push({w:1,t:"Mix uppercase and lowercase letters to expand the charset"});
-  if(!D)it.push({w:1,t:"Add digits — significantly expands the search space"});
+  if(!D)it.push({w:1,t:"Add digits - significantly expands the search space"});
   if(!S)it.push({w:0,t:"Special chars (!@#$%) exponentially boost quantum resistance"});
-  if(L&&U&&D&&S&&len>=16)it.push({w:0,t:"🏆 Perfect password — resistant to Grover's algorithm!"});
-  if(/(.)\1{2,}/.test(pwd))it.push({w:1,t:"Repeated characters reduce real-world entropy"});
-  el.innerHTML=it.map(function(i){return "<div class=\"tip"+(i.w?" warn":"")+"\">"+(i.w?"⚠️ ":"✓ ")+i.t+"</div>";}).join("");
+  if(L&&U&&D&&S&&len>=16)it.push({w:0,t:"Perfect password - resistant to Grover algorithm!"});
+  el.innerHTML=it.map(function(i){return "<div class=\"tip"+(i.w?" warn":"")+"\">"+(i.w?"! ":"OK ")+i.t+"</div>";}).join("");
 }
 function copyResult(){
   var q=document.getElementById("qTime").textContent;
   var c=document.getElementById("cTime").textContent;
   var s=document.getElementById("strengthText").textContent;
   var sp=document.getElementById("speedupVal").textContent;
-  var txt="⚡ Quantum Password Analyzer
-
-💻 Classical computer: "+c+"
-⚛️  Quantum (Grover): "+q+"
-⚡ Quantum speedup: "+sp+"
-
-"+s+"
-
-Test yours → https://dusgus1.github.io/quantum-password";
+  var NL=String.fromCharCode(10);
+  var txt="Quantum Password Analyzer"+NL+NL+"Classical PC: "+c+NL+"Quantum (Grover): "+q+NL+"Speedup: "+sp+NL+NL+s+NL+NL+"Test yours: https://dusgus1.github.io/quantum-password";
   navigator.clipboard.writeText(txt).then(function(){
     var b=document.querySelector(".share-btn");
-    b.textContent="✅ Copied to clipboard!";
-    setTimeout(function(){b.textContent="📋 Copy result for Twitter / X";},2000);
+    b.textContent="Copied!";
+    setTimeout(function(){b.textContent="Copy result for Twitter / X";},2000);
   });
 }
 function spawnP(){
   var cont=document.getElementById("particles");
   for(var i=0;i<5;i++){
     var p=document.createElement("div");p.className="particle";
-    p.style.left=Math.random()*100+"%";
-    p.style.animationDuration=(4+Math.random()*6)+"s";
+    p.style.left=Math.random()*100+"%";p.style.animationDuration=(4+Math.random()*6)+"s";
     p.style.animationDelay=(Math.random()*2)+"s";
     var sz=(2+Math.random()*3)+"px";p.style.width=p.style.height=sz;
     p.style.background=["#5b8fff","#a78bfa","#38bdf8"][Math.floor(Math.random()*3)];
