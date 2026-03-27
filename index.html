@@ -10,8 +10,14 @@ body{background:#0a0a1a;color:#e0e0ff;font-family:system-ui,sans-serif;min-heigh
 #particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:0}
 @keyframes floatUp{0%{transform:translateY(100vh);opacity:0}10%{opacity:.6}90%{opacity:.6}100%{transform:translateY(-10vh);opacity:0}}
-.container{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:40px 20px}
-.header{text-align:center;margin-bottom:36px}
+.container{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:40px 20px}
+.security-banner{display:flex;align-items:center;gap:12px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:14px 18px;margin-bottom:20px}
+.security-banner .sb-icon{font-size:1.4rem;flex-shrink:0}
+.security-banner .sb-text{font-size:.82rem;color:#6ee7b7;line-height:1.5}
+.security-banner .sb-text strong{color:#a7f3d0;display:block;margin-bottom:2px;font-size:.88rem}
+.security-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.pill{display:flex;align-items:center;gap:6px;background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:20px;padding:5px 12px;font-size:.75rem;color:#6ee7b7}
+.header{text-align:center;margin-bottom:28px}
 #qubitCanvas{display:block;margin:0 auto 16px;filter:drop-shadow(0 0 18px rgba(91,143,255,.5))}
 h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#5b8fff,#a78bfa,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
 .subtitle{color:#8892b0;font-size:1rem}
@@ -27,7 +33,12 @@ h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#5b8fff,#a78
 .strength-label{font-size:.85rem;color:#8892b0;margin-bottom:6px}
 .strength-bar{height:8px;background:#1a1a3a;border-radius:4px;overflow:hidden;margin-bottom:6px}
 .strength-fill{height:100%;border-radius:4px;transition:width .8s ease,background .5s}
-.strength-text{font-size:.9rem;font-weight:600;margin-bottom:28px}
+.strength-text{font-size:.9rem;font-weight:600;margin-bottom:24px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.stat-box{background:#111130;border:1px solid #2a2a5a;border-radius:12px;padding:14px;text-align:center}
+.stat-label{font-size:.7rem;color:#6a6a9a;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.stat-value{font-size:1rem;font-weight:700;color:#e0e0ff}
+.stat-value.red{color:#ef4444}.stat-value.orange{color:#f97316}.stat-value.green{color:#22c55e}.stat-value.purple{color:#a78bfa}
 .cards{display:flex;gap:16px;align-items:center;margin-bottom:24px}
 .card{flex:1;background:#111130;border-radius:16px;padding:24px 20px;text-align:center;border:1px solid #2a2a5a;transition:transform .2s}
 .card:hover{transform:translateY(-3px)}
@@ -41,6 +52,10 @@ h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#5b8fff,#a78
 .card.quantum .card-time{color:#a78bfa}
 .card-ops{font-size:.75rem;color:#6a6a9a}
 .vs-badge{font-size:1rem;font-weight:800;color:#ff4466;background:#2a0a1a;border:2px solid #ff4466;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 16px rgba(255,68,102,.4)}
+.speedup-box{background:linear-gradient(135deg,#1a0f3a,#0f0f2a);border:1px solid #3a2a6a;border-radius:12px;padding:16px 20px;margin-bottom:20px;text-align:center}
+.speedup-label{font-size:.78rem;color:#8892b0;margin-bottom:4px}
+.speedup-value{font-size:1.6rem;font-weight:800;color:#ff4466}
+.speedup-sub{font-size:.75rem;color:#6a6a9a;margin-top:2px}
 .grover-explain{background:linear-gradient(135deg,#0f0f2a,#1a0f3a);border:1px solid #3a2a6a;border-radius:12px;padding:20px;margin-bottom:20px}
 .explain-title{font-size:1rem;font-weight:600;color:#a78bfa;margin-bottom:10px}
 .explain-text{font-size:.88rem;color:#9090c0;line-height:1.6}
@@ -48,90 +63,119 @@ h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#5b8fff,#a78
 .tips{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
 .tip{background:#0f1f0f;border:1px solid #1a4a1a;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#7aaa7a}
 .tip.warn{background:#1f0f0f;border-color:#4a1a1a;color:#aa7a7a}
-.share-btn{width:100%;background:linear-gradient(135deg,#5b2d9a,#3b6fd4);border:none;border-radius:10px;padding:14px;color:white;font-size:.95rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .2s}
+.share-btn{width:100%;background:linear-gradient(135deg,#5b2d9a,#3b6fd4);border:none;border-radius:10px;padding:14px;color:white;font-size:.95rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .2s;margin-bottom:20px}
 .share-btn:hover{opacity:.9;transform:translateY(-1px)}
-.footer{text-align:center;margin-top:40px;font-size:.78rem;color:#4a4a6a}
-@media(max-width:520px){h1{font-size:1.5rem}.cards{flex-direction:column}}
+.footer-security{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px}
+.fs-item{background:#0d0d20;border:1px solid #1e1e40;border-radius:10px;padding:14px;text-align:center}
+.fs-item .fs-icon{font-size:1.4rem;margin-bottom:6px}
+.fs-item .fs-title{font-size:.75rem;font-weight:600;color:#a0a0d0;margin-bottom:4px}
+.fs-item .fs-desc{font-size:.68rem;color:#5a5a8a;line-height:1.45}
+.footer{text-align:center;font-size:.78rem;color:#4a4a6a;padding-bottom:20px}
+@media(max-width:600px){h1{font-size:1.5rem}.cards{flex-direction:column}.stat-grid{grid-template-columns:repeat(2,1fr)}.footer-security{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <canvas id="qubitCanvas" width="160" height="160"></canvas>
-    <h1>Quantum Password Analyzer</h1>
-    <p class="subtitle">How long would it take a quantum computer to crack your password?</p>
-  </div>
-  <div class="input-wrapper">
-    <input type="password" id="passwordInput" placeholder="Type your password..." autocomplete="off"/>
-    <button id="toggleBtn" onclick="toggleVis()">&#128065;</button>
-  </div>
-  <div class="charset-info" id="charsetInfo"></div>
-  <div id="results" style="display:none">
-    <div class="strength-label">Overall Strength</div>
-    <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
-    <div class="strength-text" id="strengthText"></div>
-    <div class="cards">
-      <div class="card classical">
-        <div class="card-icon">&#128187;</div>
-        <div class="card-title">Classical Computer</div>
-        <div class="card-subtitle">GPU Cluster &middot; 10&sup1;&sup2; passwords/sec</div>
-        <div class="card-time" id="cTime">-</div>
-        <div class="card-ops" id="cOps"></div>
-      </div>
-      <div class="vs-badge">VS</div>
-      <div class="card quantum">
-        <div class="card-icon">&#9883;&#65039;</div>
-        <div class="card-title">Quantum Computer</div>
-        <div class="card-subtitle">Grover's Algorithm &middot; 10&sup9; ops/sec</div>
-        <div class="card-time" id="qTime">-</div>
-        <div class="card-ops" id="qOps"></div>
-      </div>
-    </div>
-    <div class="grover-explain">
-      <div class="explain-title">&#9883;&#65039; What is Grover's Algorithm?</div>
-      <div class="explain-text">A quantum computer does not try passwords one by one. Grover's algorithm uses <strong>superposition</strong> to check all possibilities at once, finding the answer in <strong>&radic;N steps</strong> instead of N. For a billion combinations &mdash; the difference between 31 years and 1 second.</div>
-    </div>
-    <div class="tips" id="tips"></div>
-    <button class="share-btn" onclick="copyResult()">&#128203; Copy result for Twitter / X</button>
-  </div>
-  <div class="footer"><p>&#9888;&#65039; Your password is never stored or sent &mdash; everything runs locally in your browser.</p></div>
+<div class="header">
+<canvas id="qubitCanvas" width="160" height="160"></canvas>
+<h1>Quantum Password Analyzer</h1>
+<p class="subtitle">How long would it take a quantum computer to crack your password?</p>
+</div>
+<div class="security-banner">
+<div class="sb-icon">&#128274;</div>
+<div class="sb-text"><strong>100% Private &amp; Safe to Use</strong>Your password is analyzed entirely in your browser. It is never typed, stored, or sent to any server. We cannot see what you type &mdash; no one can.</div>
+</div>
+<div class="security-pills">
+<div class="pill">&#128683; No server connection</div>
+<div class="pill">&#128065; No tracking or analytics</div>
+<div class="pill">&#128190; No data stored anywhere</div>
+<div class="pill">&#9989; Open source on GitHub</div>
+<div class="pill">&#128274; Works fully offline</div>
+</div>
+<div class="input-wrapper">
+<input type="password" id="passwordInput" placeholder="Type your password..." autocomplete="off" spellcheck="false"/>
+<button id="toggleBtn" onclick="toggleVis()" title="Show/hide">&#128065;</button>
+</div>
+<div class="charset-info" id="charsetInfo"></div>
+<div id="results" style="display:none">
+<div class="strength-label">Overall Quantum Resistance</div>
+<div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+<div class="strength-text" id="strengthText"></div>
+<div class="stat-grid">
+<div class="stat-box"><div class="stat-label">Combinations</div><div class="stat-value purple" id="statN">-</div></div>
+<div class="stat-box"><div class="stat-label">Entropy (bits)</div><div class="stat-value" id="statE">-</div></div>
+<div class="stat-box"><div class="stat-label">Quantum Speedup</div><div class="stat-value red" id="statS">-</div></div>
+</div>
+<div class="cards">
+<div class="card classical">
+<div class="card-icon">&#128187;</div>
+<div class="card-title">Classical Computer</div>
+<div class="card-subtitle">GPU Cluster &middot; 10<sup>12</sup> passwords/sec</div>
+<div class="card-time" id="cTime">-</div>
+<div class="card-ops" id="cOps"></div>
+</div>
+<div class="vs-badge">VS</div>
+<div class="card quantum">
+<div class="card-icon">&#9883;&#65039;</div>
+<div class="card-title">Quantum Computer</div>
+<div class="card-subtitle">Grover's Algorithm &middot; 10<sup>9</sup> ops/sec</div>
+<div class="card-time" id="qTime">-</div>
+<div class="card-ops" id="qOps"></div>
+</div>
+</div>
+<div class="speedup-box">
+<div class="speedup-label">Quantum advantage over classical brute-force</div>
+<div class="speedup-value" id="speedupVal">-</div>
+<div class="speedup-sub">times faster than the best classical attack</div>
+</div>
+<div class="grover-explain">
+<div class="explain-title">&#9883;&#65039; What is Grover's Algorithm?</div>
+<div class="explain-text">A quantum computer does not try passwords one by one. Grover's algorithm uses <strong>superposition</strong> to check all possibilities simultaneously, finding the answer in <strong>&radic;N steps</strong> instead of N. For a billion combinations &mdash; the difference between 31 years and 1 second. This is why cryptographers recommend doubling key lengths in the post-quantum era.</div>
+</div>
+<div class="tips" id="tips"></div>
+<button class="share-btn" onclick="copyResult()">&#128203; Copy result for Twitter / X</button>
+<div class="footer-security">
+<div class="fs-item"><div class="fs-icon">&#128683;</div><div class="fs-title">Never Leaves Your Device</div><div class="fs-desc">All calculations run locally in your browser. Zero network requests are made when you type.</div></div>
+<div class="fs-item"><div class="fs-icon">&#128065;</div><div class="fs-title">No Tracking</div><div class="fs-desc">No analytics, no cookies, no fingerprinting. We have no idea you even visited this page.</div></div>
+<div class="fs-item"><div class="fs-icon">&#128214;</div><div class="fs-title">Open Source</div><div class="fs-desc">Every line of code is public on GitHub. You can verify it does exactly what we say.</div></div>
+</div>
+</div>
+<div class="footer"><p>&#9888;&#65039; This tool estimates brute-force time. Dictionary attacks on common words can be faster.</p></div>
 </div>
 <div id="particles"></div>
 <script>
-var canvas=document.getElementById("qubitCanvas");
-var ctx=canvas.getContext("2d");
-var cx=80,cy=80,R=58,angle=0,phase=0;
-function drawQubit(){
+var cv=document.getElementById("qubitCanvas"),ctx=cv.getContext("2d");
+var cx=80,cy=80,R=58,ang=0,ph=0;
+function dq(){
   ctx.clearRect(0,0,160,160);
-  ctx.strokeStyle="rgba(91,143,255,0.25)";ctx.lineWidth=1.2;
+  ctx.strokeStyle="rgba(91,143,255,0.22)";ctx.lineWidth=1.2;
   ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();
   ctx.beginPath();ctx.ellipse(cx,cy,R,R*0.28,0,0,Math.PI*2);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx,cy-R-4);ctx.lineTo(cx,cy+R+4);ctx.stroke();
   ctx.beginPath();ctx.moveTo(cx-R-4,cy);ctx.lineTo(cx+R+4,cy);ctx.stroke();
-  var theta=Math.PI/3+Math.sin(angle*0.7)*0.4;
-  var vx=cx+R*Math.sin(theta)*Math.cos(angle);
-  var vy=cy-R*Math.cos(theta);
-  var gr=ctx.createLinearGradient(cx,cy,vx,vy);
-  gr.addColorStop(0,"#5b8fff");gr.addColorStop(1,"#a78bfa");
-  ctx.strokeStyle=gr;ctx.lineWidth=2.5;
+  var th=Math.PI/3+Math.sin(ang*0.7)*0.4;
+  var vx=cx+R*Math.sin(th)*Math.cos(ang),vy=cy-R*Math.cos(th);
+  var g=ctx.createLinearGradient(cx,cy,vx,vy);
+  g.addColorStop(0,"#5b8fff");g.addColorStop(1,"#a78bfa");
+  ctx.strokeStyle=g;ctx.lineWidth=2.5;
   ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(vx,vy);ctx.stroke();
-  var dx=vx-cx,dy=vy-cy,len=Math.sqrt(dx*dx+dy*dy),ux=dx/len,uy=dy/len;
+  var dx=vx-cx,dy=vy-cy,ln=Math.sqrt(dx*dx+dy*dy),ux=dx/ln,uy=dy/ln;
   ctx.fillStyle="#a78bfa";
   ctx.beginPath();ctx.moveTo(vx,vy);
   ctx.lineTo(vx-ux*10-uy*5,vy-uy*10+ux*5);
   ctx.lineTo(vx-ux*10+uy*5,vy-uy*10-ux*5);
   ctx.closePath();ctx.fill();
   for(var i=0;i<6;i++){
-    var a=angle+i*Math.PI/3+phase;
+    var a=ang+i*Math.PI/3+ph;
     var ex=cx+R*Math.cos(a),ey=cy+R*0.28*Math.sin(a);
-    var al=0.15+0.5*Math.abs(Math.sin(a-angle));
+    var al=0.15+0.5*Math.abs(Math.sin(a-ang));
     ctx.fillStyle="rgba(56,189,248,"+al+")";
     ctx.beginPath();ctx.arc(ex,ey,2.5,0,Math.PI*2);ctx.fill();
   }
   ctx.fillStyle="#5b8fff";ctx.beginPath();ctx.arc(cx,cy,3.5,0,Math.PI*2);ctx.fill();
-  angle+=0.018;phase+=0.009;requestAnimationFrame(drawQubit);
+  ang+=0.018;ph+=0.009;requestAnimationFrame(dq);
 }
-drawQubit();
+dq();
 var inp=document.getElementById("passwordInput");
 inp.addEventListener("input",analyze);
 function toggleVis(){inp.type=inp.type==="password"?"text":"password";}
@@ -144,12 +188,21 @@ function analyze(){
   var cs=0;if(L)cs+=26;if(U)cs+=26;if(D)cs+=10;if(S)cs+=32;if(!cs)cs=26;
   var pts=[];if(L)pts.push("a-z");if(U)pts.push("A-Z");if(D)pts.push("0-9");if(S)pts.push("!@#");
   document.getElementById("charsetInfo").textContent="Charset: "+cs+" chars ("+pts.join(", ")+") · Length: "+pwd.length;
-  var N=Math.pow(cs,pwd.length),cS=N/1e12,qS=Math.sqrt(N)/1e9;
-  document.getElementById("cTime").textContent=ft(cS);
-  document.getElementById("qTime").textContent=ft(qS);
+  var N=Math.pow(cs,pwd.length);
+  var cSec=N/1e12,qSec=Math.sqrt(N)/1e9;
+  var entropy=(Math.log(N)/Math.log(2)).toFixed(1);
+  var speedup=cSec/qSec;
+  document.getElementById("statN").textContent=fb(N);
+  document.getElementById("statE").textContent=entropy+" bits";
+  var su=document.getElementById("statS");
+  su.textContent=fb(speedup)+"x";
+  su.className="stat-value "+(speedup>1e6?"red":speedup>1e3?"orange":"green");
+  document.getElementById("cTime").textContent=ft(cSec);
+  document.getElementById("qTime").textContent=ft(qSec);
   document.getElementById("cOps").textContent=fb(N)+" combinations";
   document.getElementById("qOps").textContent=fb(Math.sqrt(N))+" quantum ops";
-  bar(qS);tips(pwd,pwd.length,L,U,D,S);sp();
+  document.getElementById("speedupVal").textContent=fb(speedup)+"x faster";
+  bar(qSec);doTips(pwd,pwd.length,L,U,D,S);spawnP();
 }
 function ft(s){
   if(!isFinite(s)||s>1e30)return "forever";
@@ -166,44 +219,59 @@ function ft(s){
   if(y<1e12)return (y/1e9).toFixed(1)+"B years";
   return (y/1e12).toFixed(1)+"T years";
 }
-function fb(n){if(!isFinite(n)||n>1e100)return "10^inf";var e=Math.floor(Math.log10(n));return e<6?n.toFixed(0):"10^"+e;}
+function fb(n){
+  if(!isFinite(n)||n>1e100)return "10^∞";
+  if(n<1000)return n.toFixed(0);
+  var e=Math.floor(Math.log10(n));
+  return "10^"+e;
+}
 function bar(q){
   var f=document.getElementById("strengthFill"),l=document.getElementById("strengthText");
   var p,c,t;
-  if(q<1){p=5;c="#ef4444";t="Cracked instantly by a quantum computer";}
-  else if(q<60){p=15;c="#f97316";t="Seconds — highly vulnerable to quantum attack";}
-  else if(q<3600){p=28;c="#fb923c";t="Minutes — weak quantum protection";}
-  else if(q<86400){p=42;c="#eab308";t="Hours — below average";}
-  else if(q<3.15e7){p=58;c="#84cc16";t="Days / months — decent, but improvable";}
-  else if(q<3.15e9){p=72;c="#22c55e";t="Years — good quantum resistance";}
-  else if(q<3.15e19){p=87;c="#10b981";t="Thousands of years — excellent password!";}
-  else{p=100;c="#6366f1";t="Quantum-resistant — practically unbreakable";}
+  if(q<1)        {p=5; c="#ef4444";t="😱 Cracked instantly by a quantum computer";}
+  else if(q<60)  {p=15;c="#f97316";t="😰 Seconds — highly vulnerable to quantum attack";}
+  else if(q<3600){p=28;c="#fb923c";t="😬 Minutes — weak quantum protection";}
+  else if(q<86400){p=42;c="#eab308";t="😐 Hours — below average";}
+  else if(q<3.15e7){p=56;c="#84cc16";t="🙂 Days / months — decent, but improvable";}
+  else if(q<3.15e9){p=70;c="#22c55e";t="😊 Years — good quantum resistance";}
+  else if(q<3.15e19){p=86;c="#10b981";t="💪 Thousands of years — excellent password!";}
+  else              {p=100;c="#6366f1";t="🔮 Quantum-resistant — practically unbreakable";}
   f.style.width=p+"%";f.style.background=c;l.style.color=c;l.textContent=t;
 }
-function tips(pwd,len,L,U,D,S){
+function doTips(pwd,len,L,U,D,S){
   var el=document.getElementById("tips"),it=[];
   if(len<8)it.push({w:1,t:"Length < 8 — any computer cracks this in seconds"});
-  if(len<12)it.push({w:1,t:"Need 12+ characters for basic quantum resistance"});
-  if(len>=16)it.push({w:0,t:"Length 16+ — excellent against quantum attacks"});
-  if(!L||!U)it.push({w:1,t:"Mix uppercase and lowercase letters"});
+  if(len>=8&&len<12)it.push({w:1,t:"Need 12+ characters for basic quantum resistance"});
+  if(len>=12&&len<16)it.push({w:0,t:"Good length — consider 16+ for stronger quantum protection"});
+  if(len>=16)it.push({w:0,t:"Length 16+ — excellent foundation against quantum attacks"});
+  if(!L||!U)it.push({w:1,t:"Mix uppercase and lowercase letters to expand the charset"});
   if(!D)it.push({w:1,t:"Add digits — significantly expands the search space"});
-  if(!S)it.push({w:0,t:"Special chars (!@#$) exponentially boost strength"});
-  if(L&&U&&D&&S&&len>=16)it.push({w:0,t:"Perfect password — resistant to Grover's algorithm!"});
-  if(/(.)\1{2,}/.test(pwd))it.push({w:1,t:"Repeated characters reduce real-world strength"});
-  el.innerHTML=it.map(function(i){return'<div class="tip'+(i.w?' warn':'')+'">'+(i.w?"&#9888; ":"&#10003; ")+i.t+"</div>";}).join("");
+  if(!S)it.push({w:0,t:"Special chars (!@#$%) exponentially boost quantum resistance"});
+  if(L&&U&&D&&S&&len>=16)it.push({w:0,t:"🏆 Perfect password — resistant to Grover's algorithm!"});
+  if(/(.)\1{2,}/.test(pwd))it.push({w:1,t:"Repeated characters reduce real-world entropy"});
+  el.innerHTML=it.map(function(i){return "<div class=\"tip"+(i.w?" warn":"")+"\">"+(i.w?"⚠️ ":"✓ ")+i.t+"</div>";}).join("");
 }
 function copyResult(){
   var q=document.getElementById("qTime").textContent;
   var c=document.getElementById("cTime").textContent;
   var s=document.getElementById("strengthText").textContent;
-  var txt="Quantum Password Analyzer\n\nClassical PC: "+c+"\nQuantum computer (Grover): "+q+"\n\n"+s+"\n\nTest yours: https://dusgus1.github.io/quantum-password";
+  var sp=document.getElementById("speedupVal").textContent;
+  var txt="⚡ Quantum Password Analyzer
+
+💻 Classical computer: "+c+"
+⚛️  Quantum (Grover): "+q+"
+⚡ Quantum speedup: "+sp+"
+
+"+s+"
+
+Test yours → https://dusgus1.github.io/quantum-password";
   navigator.clipboard.writeText(txt).then(function(){
     var b=document.querySelector(".share-btn");
-    b.textContent="Copied!";
-    setTimeout(function(){b.textContent="Copy result for Twitter / X";},2000);
+    b.textContent="✅ Copied to clipboard!";
+    setTimeout(function(){b.textContent="📋 Copy result for Twitter / X";},2000);
   });
 }
-function sp(){
+function spawnP(){
   var cont=document.getElementById("particles");
   for(var i=0;i<5;i++){
     var p=document.createElement("div");p.className="particle";
